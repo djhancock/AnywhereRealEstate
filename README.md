@@ -1,16 +1,6 @@
 # AnywhereRealEstate
 
-A new Flutter project.
+My Anywhere Real Estate demo application.
 
 ## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This application demonstrates how to use a common flutter code base to generate multiple apps. The requested package ids were com.sample.simpsonsviewer and com.sample.wireviewer. I was unable to generate an ios key for those package ids, so i had to use com.jhancock.sample.simpsonsviewer and com.jhancock.sample.wireviewer respecitvely.
