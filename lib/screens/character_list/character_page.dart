@@ -84,15 +84,17 @@ class _CharacterListPageState extends State<CharacterListPage> {
             return Container();
           } else {
             if (state.isLoading) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const CircularProgressIndicator(),
-                  Text(localization.pleaseWaitLabel),
-                  Text(localization.landingPageLoading(flavor.name)),
-                ],
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const CircularProgressIndicator(),
+                    Text(localization.pleaseWaitLabel),
+                    Text(localization.landingPageLoading(flavor.name)),
+                  ],
+                ),
               );
             } else {
               final characters = state.simpsons;
