@@ -144,6 +144,7 @@ class FilterBartState<X> extends State<FilterBar<X>> {
             }).toList(),
           ),
           PopupMenuButton<SortCriteria<X>>(
+            initialValue: _selectedSort,
             icon: const Icon(
               Icons.sort,
             ),
