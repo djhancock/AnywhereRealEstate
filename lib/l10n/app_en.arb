@@ -1,4 +1,6 @@
 {
+    "okLabel": "Ok",
+    "errorLabel": "Error",
     "appTitle": "{flavor, select, simpsons{Simpsons} theWire{The Wire} other{My}} Demo",
     "@appTitle": {
         "placeholders": {

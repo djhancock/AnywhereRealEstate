@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:simpsons_demo/flavor.dart';
@@ -33,7 +34,13 @@ class CharacterListPage extends StatefulWidget {
 }
 
 class _CharacterListPageState extends State<CharacterListPage> {
-  late Future<List<CharacterModel>> loadSimpsonsFuture;
+  late Future<void> loadSimpsonsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _doLoad();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +97,7 @@ class _CharacterListPageState extends State<CharacterListPage> {
             } else {
               final characters = state.simpsons;
               return RefreshIndicator(
-                onRefresh: () => landingBloc.load(),
+                onRefresh: () => _doLoad(),
                 child: ListView.separated(
                   itemCount: characters.length,
                   separatorBuilder: (context, index) => const Divider(),
@@ -114,5 +121,30 @@ class _CharacterListPageState extends State<CharacterListPage> {
         },
       ),
     );
+  }
+
+  Future<void> _doLoad() async {
+    final landingBloc = Provider.of<CharacterListBloc>(context, listen: false);
+    return landingBloc.load().catchError((err) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              final errorMessage =
+                  err.toString().replaceFirst(RegExp("^[^:]+:"), "");
+              final localization = AppLocalizations.of(context)!;
+              return AlertDialog(
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(localization.okLabel),
+                  )
+                ],
+                title: Text(localization.errorLabel),
+                content: Text(errorMessage),
+              );
+            });
+      });
+    });
   }
 }

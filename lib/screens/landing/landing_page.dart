@@ -29,8 +29,7 @@ class LandingPageState extends State<LandingPage>
         create: (context) {
           final apiClient =
               Provider.of<DuckDuckGoApiClient>(context, listen: false);
-          final bloc = CharacterListBloc(apiClient, this);
-          return bloc..load();
+          return CharacterListBloc(apiClient, this);
         },
         dispose: (context, value) {
           value.dispose();
