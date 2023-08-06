@@ -1,0 +1,57 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "All Tests",
+            "type": "dart",
+            "request": "launch",
+            "program": "test",
+            "args": [
+                "--coverage"
+            ]
+        },
+        {
+            "name": "SimpsonViewer",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "args": [
+                "--flavor",
+                "simpsonsviewer"
+            ]
+        },
+        {
+            "name": "WireViewer",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "args": [
+                "--flavor",
+                "wireviewer"
+            ]
+        },
+        {
+            "name": "Performance: SimpsonViewer",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "simpsonsviewer"
+            ],
+            "flutterMode": "profile"
+        },
+        {
+            "name": "Performance: WireViewer",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "wireviewer"
+            ],
+            "flutterMode": "profile"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "appTitle": "{flavor, select, simpsons{Simpsons} theWire{The Wire} other{My}} Demo",
+    "@appTitle": {
+        "placeholders": {
+            "flavor": {
+                "type": "String"
+            }
+        }
+    },
+
+    "pleaseWaitLabel": "Please Wait",
+    "landingPageTitle": "{flavor, select, simpsons{The Simpsons} theWire{The Wire} other{My Demo}}",
+    "@landingPageTitle": {
+        "placeholders": {
+            "flavor": {
+                "type": "String"
+            }
+        }
+    },
+
+    "landingPageLoading": "Loading {flavor, select, simpsons{The Simpsons} theWire{The Wire} other{My Demo}} data",
+    "@landingPageLoading": {
+        "placeholders": {
+            "flavor": {
+                "type": "String"
+            }
+        }
+    },
+    "landingPageMissingImage": "No Image"
+}

@@ -1,0 +1,4 @@
+enum Flavor {
+  simpsons,
+  theWire,
+}
