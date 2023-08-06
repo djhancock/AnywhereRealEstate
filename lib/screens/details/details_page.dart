@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simpsons_demo/screens/details/details_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({super.key});
@@ -9,6 +10,7 @@ class DetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = Provider.of<DetailsBloc>(context);
     final character = bloc.simpsonsModel;
+    final localization = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -19,7 +21,7 @@ class DetailsPage extends StatelessWidget {
           children: [
             Center(
               child: (character.icon?.uri == null)
-                  ? Text("No Image")
+                  ? Text(localization.detailsMissingImageLabel)
                   : Image.network(character.icon!.uri.toString()),
             ),
             Text(character.description),
@@ -27,7 +29,7 @@ class DetailsPage extends StatelessWidget {
               onPressed: () {
                 bloc.showMoreInfo();
               },
-              child: Text("View More"),
+              child: Text(localization.detailsMissingViewMore),
             )
           ],
         ),

@@ -70,19 +70,23 @@ class _CharacterListPageState extends State<CharacterListPage> {
                   FilterBar<CharacterModel>(
                     filters: [
                       FilterCriteria<CharacterModel>(
-                          filter: (item) => item.icon != null, label: "Image"),
+                        filter: (item) => item.icon != null,
+                        label: localization.characterPageFilterByImage,
+                      ),
                     ],
                     sort: [
                       SortCriteria(
-                          sort: (item1, item2) =>
-                              item1.name.compareTo(item2.name),
-                          icon: Icons.arrow_downward,
-                          label: "Alphabetical"),
+                        sort: (item1, item2) =>
+                            item1.name.compareTo(item2.name),
+                        icon: Icons.arrow_downward,
+                        label: localization.characterPageSortAlphabetical,
+                      ),
                       SortCriteria(
-                          sort: (item1, item2) =>
-                              item2.name.compareTo(item1.name),
-                          icon: Icons.arrow_upward,
-                          label: "Alphabetical")
+                        sort: (item1, item2) =>
+                            item2.name.compareTo(item1.name),
+                        icon: Icons.arrow_upward,
+                        label: localization.characterPageSortAlphabetical,
+                      )
                     ],
                     filterDelegate: landingBloc.applyFilter,
                   ),
