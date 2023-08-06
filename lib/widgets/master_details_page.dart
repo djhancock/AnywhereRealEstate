@@ -73,16 +73,6 @@ class MasterDetailPageState extends State<MasterDetailPage> {
       },
     );
 
-    Navigator(
-      key: _detailKey,
-      onGenerateInitialRoutes: (navigator, initialRoute) => [
-        MaterialPageRoute(
-            settings: const RouteSettings(
-              name: "DetailRoot",
-            ),
-            builder: (context) => Container())
-      ],
-    );
 
     if (!showSideBySide) {
       return Stack(
