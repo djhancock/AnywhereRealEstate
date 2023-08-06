@@ -1,4 +1,3 @@
-import 'package:simpsons_demo/flavor.dart';
 import 'package:simpsons_demo/model/character_model.dart';
 import 'package:simpsons_demo/util/converters.dart';
 import 'package:simpsons_demo/util/rest_client.dart';

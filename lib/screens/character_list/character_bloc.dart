@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:simpsons_demo/flavor.dart';
 import 'package:simpsons_demo/model/character_model.dart';
 import 'package:simpsons_demo/util/duck_duck_go_api_client.dart';
 import 'package:simpsons_demo/widgets/filter_bar.dart';
