@@ -42,43 +42,35 @@ class _CharacterListPageState extends State<CharacterListPage> {
     final flavor = Provider.of<Flavor>(context);
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(localization.landingPageTitle(flavor.name)),
-        ),
-        body: StreamBuilder(
-          stream: landingBloc.stream,
-          builder: (context, snapshot) {
-            final state = snapshot.data;
-            if (state == null) {
-              return Container();
+      appBar: AppBar(
+        title: Text(localization.landingPageTitle(flavor.name)),
+      ),
+      body: StreamBuilder(
+        stream: landingBloc.stream,
+        builder: (context, snapshot) {
+          final state = snapshot.data;
+          if (state == null) {
+            return Container();
+          } else {
+            if (state.isLoading) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  Text(localization.pleaseWaitLabel),
+                  Text(localization.landingPageLoading(flavor.name)),
+                ],
+              );
             } else {
-              if (state.isLoading) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const CircularProgressIndicator(),
-                    Text(localization.pleaseWaitLabel),
-                    Text(localization.landingPageLoading(flavor.name)),
-                  ],
-                );
-              } else {
-                final characters = state.simpsons;
-                return Column(children: [
+              final characters = state.simpsons;
+              return Column(
+                children: [
                   FilterBar<CharacterModel>(
                     filters: [
                       FilterCriteria<CharacterModel>(
                           filter: (item) => item.icon != null, label: "Image"),
-                      // if(flavor ==  Flavor.simpsons) FilterCriteria<CharacterModel>(
-                      //   filter: (item) => !item.isSideCharacter,
-                      //   label: "Main"
-                      // ),
-                      // if(flavor ==  Flavor.simpsons) FilterCriteria<CharacterModel>(
-                      //   filter: (item) => item.isFamilyMember,
-                      //   label: "Family"
-                      // )
                     ],
                     sort: [
                       SortCriteria(
@@ -95,30 +87,33 @@ class _CharacterListPageState extends State<CharacterListPage> {
                     filterDelegate: landingBloc.applyFilter,
                   ),
                   Expanded(
-                      child: RefreshIndicator(
-                          onRefresh: () => landingBloc.load(),
-                          child: ListView.separated(
-                            itemCount: characters.length,
-                            separatorBuilder: (context, index) =>
-                                const Divider(),
-                            itemBuilder: (context, index) {
-                              final character = characters[index];
+                    child: RefreshIndicator(
+                      onRefresh: () => landingBloc.load(),
+                      child: ListView.separated(
+                        itemCount: characters.length,
+                        separatorBuilder: (context, index) => const Divider(),
+                        itemBuilder: (context, index) {
+                          final character = characters[index];
 
-                              return InkWell(
-                                child: CharacterCell(
-                                  character,
-                                  key: ValueKey(character.firstUrl),
-                                ),
-                                onTap: () {
-                                  landingBloc.itemSelected(character);
-                                },
-                              );
+                          return InkWell(
+                            child: CharacterCell(
+                              character,
+                              key: ValueKey(character.firstUrl),
+                            ),
+                            onTap: () {
+                              landingBloc.itemSelected(character);
                             },
-                          )))
-                ]);
-              }
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              );
             }
-          },
-        ));
+          }
+        },
+      ),
+    );
   }
 }
