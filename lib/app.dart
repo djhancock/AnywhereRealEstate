@@ -38,7 +38,7 @@ class App extends StatelessWidget {
         dispose: (context, value) {
           value.dispose();
         },
-        child: LandingPage(),
+        child: const LandingPage(),
       ),
     );
   }

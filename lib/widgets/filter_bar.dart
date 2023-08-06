@@ -80,39 +80,51 @@ class FilterBartState<X> extends State<FilterBar<X>> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
+      color: theme.appBarTheme.backgroundColor,
       padding: const EdgeInsets.all(2),
       child: Row(
         children: [
           Expanded(
-            child: TextField(
-              onChanged: (value) {
-                _applyFilter();
-              },
-              textAlignVertical: TextAlignVertical.center,
-              decoration: InputDecoration(
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: TextField(
+                onChanged: (value) {
+                  _applyFilter();
+                },
+                textAlignVertical: TextAlignVertical.center,
+                decoration: InputDecoration(
+                  filled: true,
                   isDense: true,
                   isCollapsed: true,
+                  fillColor: Colors.white,
                   contentPadding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                   border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      borderSide: BorderSide(
-                        color: Colors.red,
-                      )),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.clear),
                     onPressed: () {
                       _searchTestController.clear();
                       _applyFilter();
                     },
-                  )),
-              controller: _searchTestController,
-              enableSuggestions: false,
+                  ),
+                ),
+                controller: _searchTestController,
+                enableSuggestions: false,
+              ),
             ),
           ),
           PopupMenuButton<FilterCriteria<X>>(
-            icon: const Icon(
+            position: PopupMenuPosition.under,
+            icon: Icon(
               Icons.filter_alt,
+              color: theme.appBarTheme.iconTheme?.color,
             ),
             itemBuilder: (context) => widget.filters.map((filter) {
               return PopupMenuItem<FilterCriteria<X>>(
@@ -145,8 +157,10 @@ class FilterBartState<X> extends State<FilterBar<X>> {
           ),
           PopupMenuButton<SortCriteria<X>>(
             initialValue: _selectedSort,
-            icon: const Icon(
+            position: PopupMenuPosition.under,
+            icon: Icon(
               Icons.sort,
+              color: theme.appBarTheme.iconTheme?.color,
             ),
             itemBuilder: (context) {
               return widget.sort.map((sort) {

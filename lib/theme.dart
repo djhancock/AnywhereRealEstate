@@ -16,6 +16,11 @@ ThemeData appTheme(BuildContext context) {
 ThemeData _getSimpsonsTheme(BuildContext context) {
   return ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF3700b3)),
+    appBarTheme: const AppBarTheme(
+      iconTheme: IconThemeData(
+        color: Colors.white,
+      ),
+    ),
     toggleButtonsTheme: ToggleButtonsThemeData(
       selectedColor: Colors.blue,
       color: Colors.blue.withAlpha(128),
@@ -29,6 +34,11 @@ ThemeData _getSimpsonsTheme(BuildContext context) {
 ThemeData _getTheWireTheme(BuildContext context) {
   return ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF027A1C)),
+    appBarTheme: const AppBarTheme(
+      iconTheme: IconThemeData(
+        color: Colors.white,
+      ),
+    ),
     toggleButtonsTheme: ToggleButtonsThemeData(
       selectedColor: Colors.blue,
       color: Colors.blue.withAlpha(128),

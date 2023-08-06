@@ -44,6 +44,30 @@ class _CharacterListPageState extends State<CharacterListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(localization.landingPageTitle(flavor.name)),
+        bottom: PreferredSize(
+          preferredSize: Size(0, 25),
+          child: FilterBar<CharacterModel>(
+            filters: [
+              FilterCriteria<CharacterModel>(
+                filter: (item) => item.icon != null,
+                label: localization.characterPageFilterByImage,
+              ),
+            ],
+            sort: [
+              SortCriteria(
+                sort: (item1, item2) => item1.name.compareTo(item2.name),
+                icon: Icons.arrow_downward,
+                label: localization.characterPageSortAlphabetical,
+              ),
+              SortCriteria(
+                sort: (item1, item2) => item2.name.compareTo(item1.name),
+                icon: Icons.arrow_upward,
+                label: localization.characterPageSortAlphabetical,
+              )
+            ],
+            filterDelegate: landingBloc.applyFilter,
+          ),
+        ),
       ),
       body: StreamBuilder(
         stream: landingBloc.stream,
@@ -65,54 +89,25 @@ class _CharacterListPageState extends State<CharacterListPage> {
               );
             } else {
               final characters = state.simpsons;
-              return Column(
-                children: [
-                  FilterBar<CharacterModel>(
-                    filters: [
-                      FilterCriteria<CharacterModel>(
-                        filter: (item) => item.icon != null,
-                        label: localization.characterPageFilterByImage,
-                      ),
-                    ],
-                    sort: [
-                      SortCriteria(
-                        sort: (item1, item2) =>
-                            item1.name.compareTo(item2.name),
-                        icon: Icons.arrow_downward,
-                        label: localization.characterPageSortAlphabetical,
-                      ),
-                      SortCriteria(
-                        sort: (item1, item2) =>
-                            item2.name.compareTo(item1.name),
-                        icon: Icons.arrow_upward,
-                        label: localization.characterPageSortAlphabetical,
-                      )
-                    ],
-                    filterDelegate: landingBloc.applyFilter,
-                  ),
-                  Expanded(
-                    child: RefreshIndicator(
-                      onRefresh: () => landingBloc.load(),
-                      child: ListView.separated(
-                        itemCount: characters.length,
-                        separatorBuilder: (context, index) => const Divider(),
-                        itemBuilder: (context, index) {
-                          final character = characters[index];
+              return RefreshIndicator(
+                onRefresh: () => landingBloc.load(),
+                child: ListView.separated(
+                  itemCount: characters.length,
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemBuilder: (context, index) {
+                    final character = characters[index];
 
-                          return InkWell(
-                            child: CharacterCell(
-                              character,
-                              key: ValueKey(character.firstUrl),
-                            ),
-                            onTap: () {
-                              landingBloc.itemSelected(character);
-                            },
-                          );
-                        },
+                    return InkWell(
+                      child: CharacterCell(
+                        character,
+                        key: ValueKey(character.firstUrl),
                       ),
-                    ),
-                  )
-                ],
+                      onTap: () {
+                        landingBloc.itemSelected(character);
+                      },
+                    );
+                  },
+                ),
               );
             }
           }
