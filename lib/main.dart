@@ -10,35 +10,43 @@ void main() async {
   final restfulClient = HttpClient();
   final flavor = await getAppFlavor();
 
-  final apiClient = clientFromFlavor(flavor, restfulClient, );
-
-  runApp(
-    MultiProvider(
-      providers: [
-        Provider.value(value: apiClient,),
-        Provider.value(value: flavor)
-      ],
-      child: const App(),
-    )    
+  final apiClient = clientFromFlavor(
+    flavor,
+    restfulClient,
   );
+
+  runApp(MultiProvider(
+    providers: [
+      Provider.value(
+        value: apiClient,
+      ),
+      Provider.value(value: flavor)
+    ],
+    child: const App(),
+  ));
 }
 
 DuckDuckGoApiClient clientFromFlavor(Flavor flavor, HttpClient client) {
-  switch(flavor) {
-    case Flavor.simpsons: return DuckDuckGoSimpsonsClient(client);
-    case Flavor.theWire: return DuckDuckGoTheWireClient(client);
+  switch (flavor) {
+    case Flavor.simpsons:
+      return DuckDuckGoSimpsonsClient(client);
+    case Flavor.theWire:
+      return DuckDuckGoTheWireClient(client);
   }
 }
 
-Future<Flavor> getAppFlavor() async {  
+Future<Flavor> getAppFlavor() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final packageInfo = await PackageInfo.fromPlatform();
-  final packageName = packageInfo.packageName.replaceFirst("com.jhancock.sample.", "");
+  final packageName =
+      packageInfo.packageName.replaceFirst("com.jhancock.sample.", "");
 
-  switch(packageName) {
-    case "simpsonsviewer": return Flavor.simpsons;
-    case "wireviewer": return Flavor.theWire;
+  switch (packageName) {
+    case "simpsonsviewer":
+      return Flavor.simpsons;
+    case "wireviewer":
+      return Flavor.theWire;
     default:
       throw Exception("Unsupported package name '$packageName'");
   }

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +9,7 @@ import 'package:simpsons_demo/widgets/filter_bar.dart';
 class CharacterCell extends StatelessWidget {
   final CharacterModel character;
 
-  const CharacterCell(this.character, { super.key });
+  const CharacterCell(this.character, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,9 @@ class CharacterCell extends StatelessWidget {
 }
 
 class CharacterListPage extends StatefulWidget {
-  const CharacterListPage({super.key,});
+  const CharacterListPage({
+    super.key,
+  });
 
   @override
   State<CharacterListPage> createState() => _CharacterListPageState();
@@ -42,89 +42,83 @@ class _CharacterListPageState extends State<CharacterListPage> {
     final flavor = Provider.of<Flavor>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(localization.landingPageTitle(flavor.name)),
-      ),
-      body: StreamBuilder(
-        stream: landingBloc.stream,
-        builder: (context, snapshot) {
-          final state = snapshot.data;
-          if(state == null) {
-            return Container();
-          } else {
-            if(state.isLoading) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const CircularProgressIndicator(),
-                  Text(localization.pleaseWaitLabel),
-                  Text(localization.landingPageLoading(flavor.name)),
-                ],
-              );
-            } else {              
-              final characters = state.simpsons;
-              return Column(
-                children: [
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(localization.landingPageTitle(flavor.name)),
+        ),
+        body: StreamBuilder(
+          stream: landingBloc.stream,
+          builder: (context, snapshot) {
+            final state = snapshot.data;
+            if (state == null) {
+              return Container();
+            } else {
+              if (state.isLoading) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const CircularProgressIndicator(),
+                    Text(localization.pleaseWaitLabel),
+                    Text(localization.landingPageLoading(flavor.name)),
+                  ],
+                );
+              } else {
+                final characters = state.simpsons;
+                return Column(children: [
                   FilterBar<CharacterModel>(
                     filters: [
                       FilterCriteria<CharacterModel>(
-                        filter: (item) => item.icon != null, 
-                        label: "Image"
-                      ),
+                          filter: (item) => item.icon != null, label: "Image"),
                       // if(flavor ==  Flavor.simpsons) FilterCriteria<CharacterModel>(
-                      //   filter: (item) => !item.isSideCharacter, 
+                      //   filter: (item) => !item.isSideCharacter,
                       //   label: "Main"
                       // ),
                       // if(flavor ==  Flavor.simpsons) FilterCriteria<CharacterModel>(
-                      //   filter: (item) => item.isFamilyMember, 
+                      //   filter: (item) => item.isFamilyMember,
                       //   label: "Family"
                       // )
                     ],
                     sort: [
                       SortCriteria(
-                        sort: (item1, item2) => item1.name.compareTo(item2.name), 
-                        icon: Icons.arrow_downward,
-                        label: "Alphabetical"
-                      ),
+                          sort: (item1, item2) =>
+                              item1.name.compareTo(item2.name),
+                          icon: Icons.arrow_downward,
+                          label: "Alphabetical"),
                       SortCriteria(
-                        sort: (item1, item2) => item2.name.compareTo(item1.name), 
-                        icon: Icons.arrow_upward,
-                        label: "Alphabetical"
-                      )
+                          sort: (item1, item2) =>
+                              item2.name.compareTo(item1.name),
+                          icon: Icons.arrow_upward,
+                          label: "Alphabetical")
                     ],
                     filterDelegate: landingBloc.applyFilter,
                   ),
                   Expanded(
-                    child: RefreshIndicator(
-                      onRefresh: () => landingBloc.load(),
-                      child: ListView.separated(
-                        itemCount: characters.length,
-                        separatorBuilder: (context, index) => const Divider(),
-                        itemBuilder: (context, index) {
-                          final character = characters[index];
-                
-                          return InkWell(
-                            child: CharacterCell(
-                              character, 
-                              key: ValueKey(character.firstUrl),
-                            ),
-                            onTap: () {
-                              landingBloc.itemSelected(character);
+                      child: RefreshIndicator(
+                          onRefresh: () => landingBloc.load(),
+                          child: ListView.separated(
+                            itemCount: characters.length,
+                            separatorBuilder: (context, index) =>
+                                const Divider(),
+                            itemBuilder: (context, index) {
+                              final character = characters[index];
+
+                              return InkWell(
+                                child: CharacterCell(
+                                  character,
+                                  key: ValueKey(character.firstUrl),
+                                ),
+                                onTap: () {
+                                  landingBloc.itemSelected(character);
+                                },
+                              );
                             },
-                          );
-                        },
-                      )
-                    )
-                  )
-                ]
-              );
+                          )))
+                ]);
+              }
             }
-          }
-        },
-      )
-    );
+          },
+        ));
   }
 }

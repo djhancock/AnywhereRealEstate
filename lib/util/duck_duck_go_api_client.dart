@@ -1,9 +1,9 @@
 import 'package:simpsons_demo/model/character_model.dart';
 import 'package:simpsons_demo/util/converters.dart';
 import 'package:simpsons_demo/util/rest_client.dart';
-import 'package:simpsons_demo/util/uri_builder.dart';import 'dart:async';
+import 'package:simpsons_demo/util/uri_builder.dart';
+import 'dart:async';
 import 'dart:convert';
-
 
 final duckDuckGoApiUri = Uri.parse("http://api.duckduckgo.com");
 final duckDuckGoRootUri = Uri.parse("http://www.duckduckgo.com");
@@ -94,22 +94,21 @@ abstract class DuckDuckGoApiClient {
 
   DuckDuckGoApiClient._(this._client);
 
-
   Future<List<CharacterModel>> loadCharacters();
 
-  Future<List<X>> _doLoadCharacters<X extends CharacterModel>(String characterType, CharacterConverter<X> converter) async {
+  Future<List<X>> _doLoadCharacters<X extends CharacterModel>(
+      String characterType, CharacterConverter<X> converter) async {
     // request format = http://api.duckduckgo.com/?q=simpsons+characters&format=json
-    final uri = duckDuckGoApiUri.buildUpon()
-      .addQueryParameter("q", characterType)
-      .addQueryParameter("format", "json")
-      .build();
-    
+    final uri = duckDuckGoApiUri
+        .buildUpon()
+        .addQueryParameter("q", characterType)
+        .addQueryParameter("format", "json")
+        .build();
+
     final request = HttpRequest.get(uri);
     final parser = CharacterParser<X>(converter);
 
-    return _client.execute(request)
-            .transform(parser)
-            .first;
+    return _client.execute(request).transform(parser).first;
   }
 }
 
@@ -117,20 +116,20 @@ class DuckDuckGoSimpsonsClient extends DuckDuckGoApiClient {
   DuckDuckGoSimpsonsClient(HttpClient client) : super._(client);
 
   @override
-  Future<List<SimpsonsModel>> loadCharacters() => _doLoadCharacters("simpsons characters", TheSimpsonsCharacterConverter(duckDuckGoRootUri));
+  Future<List<SimpsonsModel>> loadCharacters() => _doLoadCharacters(
+      "simpsons characters", TheSimpsonsCharacterConverter(duckDuckGoRootUri));
 }
 
 class DuckDuckGoTheWireClient extends DuckDuckGoApiClient {
   DuckDuckGoTheWireClient(HttpClient client) : super._(client);
 
   @override
-  Future<List<TheWireModel>> loadCharacters() => _doLoadCharacters("the wire characters", TheWireCharacterConverter(duckDuckGoRootUri));
+  Future<List<TheWireModel>> loadCharacters() => _doLoadCharacters(
+      "the wire characters", TheWireCharacterConverter(duckDuckGoRootUri));
 }
 
-class CharacterParser<X 
-  extends CharacterModel> 
-  extends StreamTransformerBase<List<int>, List<X>> 
-{
+class CharacterParser<X extends CharacterModel>
+    extends StreamTransformerBase<List<int>, List<X>> {
   final CharacterConverter<X> _converter;
 
   CharacterParser(this._converter);
@@ -138,19 +137,19 @@ class CharacterParser<X
   @override
   Stream<List<X>> bind(Stream<List<int>> stream) {
     return const Utf8Decoder()
-      .fuse(const JsonDecoder())
-      .bind(stream)
-      .transform(StreamTransformer.fromHandlers(
-        handleData: (data, sink) {                            
-          final dict = data as Map<String,dynamic>;
-          final results = (dict['RelatedTopics'] ?? []) as List<dynamic>;
+        .fuse(const JsonDecoder())
+        .bind(stream)
+        .transform(StreamTransformer.fromHandlers(
+      handleData: (data, sink) {
+        final dict = data as Map<String, dynamic>;
+        final results = (dict['RelatedTopics'] ?? []) as List<dynamic>;
 
-          final characters = results.map((jsonObj) {
-            return _converter.convert(jsonObj);
-          });
+        final characters = results.map((jsonObj) {
+          return _converter.convert(jsonObj);
+        });
 
-          sink.add(characters.toList());
-        },
-      ));
+        sink.add(characters.toList());
+      },
+    ));
   }
 }

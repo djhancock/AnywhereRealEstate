@@ -25,18 +25,20 @@ class App extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('en'), 
+        Locale('en'),
       ],
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle(flavor.name),
+      onGenerateTitle: (context) =>
+          AppLocalizations.of(context)!.appTitle(flavor.name),
       home: Provider<LandingBloc>(
         create: (context) {
-          final apiClient = Provider.of<DuckDuckGoApiClient>(context, listen: false);
+          final apiClient =
+              Provider.of<DuckDuckGoApiClient>(context, listen: false);
           return LandingBloc(apiClient)..load();
         },
         dispose: (context, value) {
           value.dispose();
         },
-        child: LandingPage()
+        child: LandingPage(),
       ),
     );
   }

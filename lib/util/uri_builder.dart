@@ -2,13 +2,13 @@ class UriBuilder {
   final String _scheme;
   final String _host;
   final List<String> _path;
-  final Map<String,String> _queryParameters;
+  final Map<String, String> _queryParameters;
 
-  UriBuilder(Uri uri) 
-    : _scheme = uri.scheme,
-      _host = uri.host,
-      _path = List.from(uri.pathSegments),
-      _queryParameters = Map.from(uri.queryParameters);
+  UriBuilder(Uri uri)
+      : _scheme = uri.scheme,
+        _host = uri.host,
+        _path = List.from(uri.pathSegments),
+        _queryParameters = Map.from(uri.queryParameters);
 
   UriBuilder addSubPath(Uri uri) {
     _path.addAll(uri.pathSegments);
@@ -30,13 +30,13 @@ class UriBuilder {
     _queryParameters[key] = value;
     return this;
   }
-  
+
   Uri build() {
     return Uri(
       scheme: _scheme,
       host: _host,
       pathSegments: _path,
-      queryParameters: (_queryParameters.isNotEmpty)? _queryParameters : null,
+      queryParameters: (_queryParameters.isNotEmpty) ? _queryParameters : null,
     );
   }
 }

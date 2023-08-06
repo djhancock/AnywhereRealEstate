@@ -26,19 +26,19 @@ class LandingBloc {
   }
 
   Future<void> load() async {
-    _streamController.add(const LandingBlocState._(isLoading: true, simpsons: []));
-    
+    _streamController
+        .add(const LandingBlocState._(isLoading: true, simpsons: []));
+
     List<CharacterModel>? simpsons;
 
     try {
       simpsons = await _apiClient.loadCharacters();
-    }
-    catch(e) {
+    } catch (e) {
       print("Loading error ${e.toString()}");
       rethrow;
-    }
-    finally {
-    _streamController.add(LandingBlocState._(isLoading: false, simpsons: simpsons ?? []));
+    } finally {
+      _streamController
+          .add(LandingBlocState._(isLoading: false, simpsons: simpsons ?? []));
     }
   }
-} 
+}

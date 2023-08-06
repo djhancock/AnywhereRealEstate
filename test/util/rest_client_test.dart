@@ -23,24 +23,21 @@ void main() {
     });
 
     test('restful request parameters are properly translated', () async {
-      mockWebServer.enqueue(body: "A successful response".codeUnits,);
-
-      final request = HttpRequest.get(
-        rootUri, 
-        <String,String>{
-          "A":"1",
-          "B":"C"
-        }  
+      mockWebServer.enqueue(
+        body: "A successful response".codeUnits,
       );
+
+      final request =
+          HttpRequest.get(rootUri, <String, String>{"A": "1", "B": "C"});
 
       await restfulClient.execute(request).first;
 
       final takeRequest = mockWebServer.takeRequest();
-      
+
       // NOTE: the takeRequest.url is relative to the server's root
       expect(rootUri.resolveUri(takeRequest.uri), request.uri);
 
-      // NOTE: the httpClient will add its own headers. We 
+      // NOTE: the httpClient will add its own headers. We
       // just need to make sure ours are present.
       request.headers.forEach((key, value) {
         expect(takeRequest.headers[key.toLowerCase()], value);
@@ -49,14 +46,16 @@ void main() {
       expect(takeRequest.method, request.method);
     });
 
-    
     test('raw response is streamed back to the user', () async {
-      mockWebServer.enqueue(body: "A successful response",);
+      mockWebServer.enqueue(
+        body: "A successful response",
+      );
 
       final request = HttpRequest.get(rootUri);
 
       expect(restfulClient.execute(request), emits(predicate((p0) {
-        return const Utf8Decoder().convert(p0 as List<int>) == "A successful response";
+        return const Utf8Decoder().convert(p0 as List<int>) ==
+            "A successful response";
       })));
     });
 
@@ -67,8 +66,8 @@ void main() {
 
       expect(restfulClient.execute(request), emitsError(predicate((p0) {
         return p0 is HttpException &&
-                p0.code == 300 &&
-                p0.message == "Test Error Message";
+            p0.code == 300 &&
+            p0.message == "Test Error Message";
       })));
     });
   });

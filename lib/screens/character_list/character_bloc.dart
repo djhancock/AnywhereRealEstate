@@ -26,7 +26,7 @@ class CharacterListBloc {
   final _streamController = StreamController<CharacterListState>();
 
   List<FilterCriteria<CharacterModel>> selectedFilters = [];
-  SortCriteria<CharacterModel>? sortCriteria ; 
+  SortCriteria<CharacterModel>? sortCriteria;
   String filterText = "";
 
   CharacterListBloc(this._apiClient, this._navigator);
@@ -39,23 +39,23 @@ class CharacterListBloc {
 
   Future<void> load() async {
     final filteredCharacters = _doFilter();
-    _streamController.add(CharacterListState._(isLoading: true, simpsons: filteredCharacters));
-    
+    _streamController.add(
+        CharacterListState._(isLoading: true, simpsons: filteredCharacters));
+
     List<CharacterModel>? simpsons;
 
     try {
       simpsons = await _apiClient.loadCharacters();
-    }
-    catch(e) {
+    } catch (e) {
       rethrow;
-    }
-    finally {
+    } finally {
       simpsons ??= [];
       _unfilteredList.clear();
       _unfilteredList.addAll(simpsons);
 
       final filteredCharacters = _doFilter();
-      _streamController.add(CharacterListState._(isLoading: false, simpsons: filteredCharacters));
+      _streamController.add(
+          CharacterListState._(isLoading: false, simpsons: filteredCharacters));
     }
   }
 
@@ -64,8 +64,8 @@ class CharacterListBloc {
   }
 
   void applyFilter(
-    List<FilterCriteria<CharacterModel>> selectedFilters, 
-    SortCriteria<CharacterModel>? sortCriteria, 
+    List<FilterCriteria<CharacterModel>> selectedFilters,
+    SortCriteria<CharacterModel>? sortCriteria,
     String filterText,
   ) {
     this.selectedFilters = selectedFilters;
@@ -73,19 +73,19 @@ class CharacterListBloc {
     this.filterText = filterText;
 
     final filteredCharacters = _doFilter();
-    _streamController.add(CharacterListState._(isLoading: false, simpsons: filteredCharacters));
+    _streamController.add(
+        CharacterListState._(isLoading: false, simpsons: filteredCharacters));
   }
 
   List<CharacterModel> _doFilter() {
     return _unfilteredList
-            .where((item) => selectedFilters.every((element) => element.filter(item)))
-            .where((item) {
-              final lowerSearch = filterText.toLowerCase();
-              return item.name.toLowerCase().contains(lowerSearch) ||
-                      item.description.toLowerCase().contains(lowerSearch);
-            })
-            .toList()
-            ..sort((a, b) => sortCriteria?.sort(a,b) ?? 0);
-  
+        .where(
+            (item) => selectedFilters.every((element) => element.filter(item)))
+        .where((item) {
+      final lowerSearch = filterText.toLowerCase();
+      return item.name.toLowerCase().contains(lowerSearch) ||
+          item.description.toLowerCase().contains(lowerSearch);
+    }).toList()
+      ..sort((a, b) => sortCriteria?.sort(a, b) ?? 0);
   }
-} 
+}

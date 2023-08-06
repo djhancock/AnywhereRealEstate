@@ -8,9 +8,8 @@ import 'package:simpsons_demo/util/rest_client.dart';
 
 import 'duck_duck_go_api_client_test.mocks.dart';
 
-String buildDuckDuckGoObject(List<Map<String,dynamic>> relatedTopics) {
-  return 
-      """{
+String buildDuckDuckGoObject(List<Map<String, dynamic>> relatedTopics) {
+  return """{
         "RelatedTopics": ${jsonEncode(relatedTopics)},
         "Abstract":"",
         "AbstractSource":"Wikipedia",
@@ -89,7 +88,7 @@ String buildDuckDuckGoObject(List<Map<String,dynamic>> relatedTopics) {
     }""";
 }
 
-@GenerateMocks([ HttpClient ])
+@GenerateMocks([HttpClient])
 void main() {
   late MockHttpClient mockHttpClient;
 
@@ -106,20 +105,18 @@ void main() {
 
     test('successful response', () async {
       final jsonObj = {
-        "FirstURL":"https://duckduckgo.com/Apu_Nahasapeemapetilan",
-        "Icon":{
-          "Height":"",
-          "URL":"/1/2",
-          "Width":""
-        },
-        "Result":"<a href=\"https://duckduckgo.com/Apu_Nahasapeemapetilan\">Apu Nahasapeemapetilan</a><br>Apu Nahasapeemapetilan is a recurring character in the American animated television series The Simpsons. He is an Indian immigrant proprietor who runs the Kwik-E-Mart, a popular convenience store in Springfield, and is known for his catchphrase, \"Thank you, come again\".",
-        "Text":"Apu Nahasapeemapetilan - Apu Nahasapeemapetilan is a recurring character in the American animated television series The Simpsons. He is an Indian immigrant proprietor who runs the Kwik-E-Mart, a popular convenience store in Springfield, and is known for his catchphrase, \"Thank you, come again\"."
+        "FirstURL": "https://duckduckgo.com/Apu_Nahasapeemapetilan",
+        "Icon": {"Height": "", "URL": "/1/2", "Width": ""},
+        "Result":
+            "<a href=\"https://duckduckgo.com/Apu_Nahasapeemapetilan\">Apu Nahasapeemapetilan</a><br>Apu Nahasapeemapetilan is a recurring character in the American animated television series The Simpsons. He is an Indian immigrant proprietor who runs the Kwik-E-Mart, a popular convenience store in Springfield, and is known for his catchphrase, \"Thank you, come again\".",
+        "Text":
+            "Apu Nahasapeemapetilan - Apu Nahasapeemapetilan is a recurring character in the American animated television series The Simpsons. He is an Indian immigrant proprietor who runs the Kwik-E-Mart, a popular convenience store in Springfield, and is known for his catchphrase, \"Thank you, come again\"."
       };
 
-      final successResponse = buildDuckDuckGoObject([jsonObj]);     
+      final successResponse = buildDuckDuckGoObject([jsonObj]);
 
       when(mockHttpClient.execute(any))
-        .thenAnswer((_) => Stream.value(successResponse.codeUnits));
+          .thenAnswer((_) => Stream.value(successResponse.codeUnits));
 
       final models = await apiClient.loadCharacters();
       expect(models.length, 1);
@@ -127,15 +124,16 @@ void main() {
 
     test("request parameters", () async {
       when(mockHttpClient.execute(any))
-        .thenAnswer((_) => Stream.value("{}".codeUnits));
+          .thenAnswer((_) => Stream.value("{}".codeUnits));
 
-     await apiClient.loadCharacters();
-     verify(mockHttpClient.execute(argThat(predicate((p0) {
-      final restfulRequest = p0 as HttpRequest;
-      expect(restfulRequest.uri, duckDuckGoApiUri.resolve("?q=simpsons+characters&format=json"));
-      expect(restfulRequest.method, "GET");
-      return true;  
-     }))));
+      await apiClient.loadCharacters();
+      verify(mockHttpClient.execute(argThat(predicate((p0) {
+        final restfulRequest = p0 as HttpRequest;
+        expect(restfulRequest.uri,
+            duckDuckGoApiUri.resolve("?q=simpsons+characters&format=json"));
+        expect(restfulRequest.method, "GET");
+        return true;
+      }))));
     });
   });
 
@@ -148,20 +146,18 @@ void main() {
 
     test('successful response', () async {
       final jsonObj = {
-        "FirstURL":"https://duckduckgo.com/Apu_Nahasapeemapetilan",
-        "Icon":{
-          "Height":"",
-          "URL":"/1/2",
-          "Width":""
-        },
-        "Result":"<a href=\"https://duckduckgo.com/Apu_Nahasapeemapetilan\">Apu Nahasapeemapetilan</a><br>Apu Nahasapeemapetilan is a recurring character in the American animated television series The Simpsons. He is an Indian immigrant proprietor who runs the Kwik-E-Mart, a popular convenience store in Springfield, and is known for his catchphrase, \"Thank you, come again\".",
-        "Text":"Apu Nahasapeemapetilan - Apu Nahasapeemapetilan is a recurring character in the American animated television series The Simpsons. He is an Indian immigrant proprietor who runs the Kwik-E-Mart, a popular convenience store in Springfield, and is known for his catchphrase, \"Thank you, come again\"."
+        "FirstURL": "https://duckduckgo.com/Apu_Nahasapeemapetilan",
+        "Icon": {"Height": "", "URL": "/1/2", "Width": ""},
+        "Result":
+            "<a href=\"https://duckduckgo.com/Apu_Nahasapeemapetilan\">Apu Nahasapeemapetilan</a><br>Apu Nahasapeemapetilan is a recurring character in the American animated television series The Simpsons. He is an Indian immigrant proprietor who runs the Kwik-E-Mart, a popular convenience store in Springfield, and is known for his catchphrase, \"Thank you, come again\".",
+        "Text":
+            "Apu Nahasapeemapetilan - Apu Nahasapeemapetilan is a recurring character in the American animated television series The Simpsons. He is an Indian immigrant proprietor who runs the Kwik-E-Mart, a popular convenience store in Springfield, and is known for his catchphrase, \"Thank you, come again\"."
       };
 
-      final successResponse = buildDuckDuckGoObject([jsonObj]);     
+      final successResponse = buildDuckDuckGoObject([jsonObj]);
 
       when(mockHttpClient.execute(any))
-        .thenAnswer((_) => Stream.value(successResponse.codeUnits));
+          .thenAnswer((_) => Stream.value(successResponse.codeUnits));
 
       final models = await apiClient.loadCharacters();
       expect(models.length, 1);
@@ -169,15 +165,16 @@ void main() {
 
     test("request parameters", () async {
       when(mockHttpClient.execute(any))
-        .thenAnswer((_) => Stream.value("{}".codeUnits));
+          .thenAnswer((_) => Stream.value("{}".codeUnits));
 
-     await apiClient.loadCharacters();
-     verify(mockHttpClient.execute(argThat(predicate((p0) {
-      final restfulRequest = p0 as HttpRequest;
-      expect(restfulRequest.uri, duckDuckGoApiUri.resolve("?q=the+wire+characters&format=json"));
-      expect(restfulRequest.method, "GET");
-      return true;  
-     }))));
+      await apiClient.loadCharacters();
+      verify(mockHttpClient.execute(argThat(predicate((p0) {
+        final restfulRequest = p0 as HttpRequest;
+        expect(restfulRequest.uri,
+            duckDuckGoApiUri.resolve("?q=the+wire+characters&format=json"));
+        expect(restfulRequest.method, "GET");
+        return true;
+      }))));
     });
   });
 }

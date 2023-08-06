@@ -18,8 +18,7 @@ class MasterDetailController {
   }
 }
 
-class MasterDetailPage 
-  extends StatefulWidget {
+class MasterDetailPage extends StatefulWidget {
   final double minDetailSize;
   final double maxMasterSize;
   final Widget masterPage;
@@ -36,9 +35,7 @@ class MasterDetailPage
   createState() => MasterDetailPageState();
 }
 
-class MasterDetailPageState
-  extends State<MasterDetailPage> {
-
+class MasterDetailPageState extends State<MasterDetailPage> {
   final _detailKey = GlobalKey<NavigatorState>();
   final _detailRoute = ValueNotifier<Route<dynamic>?>(null);
 
@@ -65,37 +62,31 @@ class MasterDetailPageState
     final detailWidget = ValueListenableBuilder(
       valueListenable: _detailRoute,
       builder: (context, value, child) {
-        if(value == null) {
+        if (value == null) {
           return Container();
         } else {
           return Navigator(
             key: _detailKey,
-            onGenerateInitialRoutes: (navigator, initialRoute) => [
-              value
-            ],
+            onGenerateInitialRoutes: (navigator, initialRoute) => [value],
           );
         }
       },
     );
 
-     Navigator(
+    Navigator(
       key: _detailKey,
       onGenerateInitialRoutes: (navigator, initialRoute) => [
         MaterialPageRoute(
-          settings: const RouteSettings(
-            name: "DetailRoot",
-          ),
-          builder: (context) => Container()
-        )
+            settings: const RouteSettings(
+              name: "DetailRoot",
+            ),
+            builder: (context) => Container())
       ],
     );
 
-    if(!showSideBySide) {
+    if (!showSideBySide) {
       return Stack(
-        children: [
-          widget.masterPage,
-          detailWidget
-        ],
+        children: [widget.masterPage, detailWidget],
       );
     } else {
       return Row(
@@ -107,18 +98,19 @@ class MasterDetailPageState
             width: widget.maxMasterSize,
             child: widget.masterPage,
           ),
-          Expanded(
-            child: detailWidget
-          )
+          Expanded(child: detailWidget)
         ],
       );
     }
   }
-  
+
   void _onWidgetChanged(Widget widget) {
-    final newRoute = _ForcePoppableMaterialRoute(builder: (context) => widget,);
+    final newRoute = _ForcePoppableMaterialRoute(
+      builder: (context) => widget,
+    );
     newRoute.popped.whenComplete(() => _detailRoute.value = null);
-    _detailKey.currentState?.pushAndRemoveUntil(newRoute, (route) => route.settings.name == "DetailRoot");
+    _detailKey.currentState?.pushAndRemoveUntil(
+        newRoute, (route) => route.settings.name == "DetailRoot");
     _detailRoute.value = newRoute;
   }
 }

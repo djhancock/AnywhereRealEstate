@@ -10,37 +10,38 @@ import 'package:simpsons_demo/widgets/master_details_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LandingPage extends StatefulWidget {
-    @override
+  const LandingPage({super.key});
+
+  @override
   State<StatefulWidget> createState() => LandingPageState();
 }
 
-class LandingPageState
-  extends State<LandingPage>  
-  implements CharacterListNavigator, 
-             DetailsBlocNavigator {
+class LandingPageState extends State<LandingPage>
+    implements CharacterListNavigator, DetailsBlocNavigator {
   final _masterDetailController = MasterDetailController();
 
   @override
   Widget build(BuildContext context) {
     return MasterDetailPage(
-      maxMasterSize: 300, 
-      minDetailSize: 460, 
+      maxMasterSize: 300,
+      minDetailSize: 460,
       masterPage: Provider(
         create: (context) {
-          final apiClient = Provider.of<DuckDuckGoApiClient>(context, listen: false);
+          final apiClient =
+              Provider.of<DuckDuckGoApiClient>(context, listen: false);
           final bloc = CharacterListBloc(apiClient, this);
-          return bloc..load();    
+          return bloc..load();
         },
         dispose: (context, value) {
           value.dispose();
         },
         child: const CharacterListPage(),
-      ), 
+      ),
       controller: _masterDetailController,
     );
   }
 
-  // CharacterListNavigator 
+  // CharacterListNavigator
   @override
   void showCharacterDetials(CharacterModel simpsonsModel) {
     _masterDetailController.showDetails(Provider(
@@ -50,7 +51,7 @@ class LandingPageState
       child: const DetailsPage(),
     ));
   }
-  
+
   // DetailsBlocNavigator
   @override
   void showDetails(CharacterModel model) {

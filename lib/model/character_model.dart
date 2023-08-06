@@ -1,5 +1,5 @@
 class CharacterIcon {
-  final int?height;
+  final int? height;
   final int? width;
   final Uri uri;
 

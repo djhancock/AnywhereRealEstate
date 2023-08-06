@@ -18,13 +18,15 @@ class DetailsPage extends StatelessWidget {
         child: Column(
           children: [
             Center(
-              child: (character.icon?.uri == null)?  Text("No Image") : Image.network(character.icon!.uri.toString()),
+              child: (character.icon?.uri == null)
+                  ? Text("No Image")
+                  : Image.network(character.icon!.uri.toString()),
             ),
             Text(character.description),
             TextButton(
               onPressed: () {
                 bloc.showMoreInfo();
-              }, 
+              },
               child: Text("View More"),
             )
           ],
