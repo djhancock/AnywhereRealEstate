@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simpsons_demo/screens/details/details_bloc.dart';
@@ -17,21 +19,45 @@ class DetailsPage extends StatelessWidget {
         title: Text(character.name),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Center(
-              child: (character.icon?.uri == null)
-                  ? Text(localization.detailsMissingImageLabel)
-                  : Image.network(character.icon!.uri.toString()),
-            ),
-            Text(character.description),
-            TextButton(
-              onPressed: () {
-                bloc.showMoreInfo();
-              },
-              child: Text(localization.detailsMissingViewMore),
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Center(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final targetWidth = min(constraints.maxWidth, 256.0);
+
+                    return SizedBox(
+                      width: targetWidth,
+                      child: (character.icon?.uri == null)
+                          ? Text(localization.detailsMissingImageLabel)
+                          : Image.network(
+                              character.icon!.uri.toString(),
+                              fit: BoxFit.fitWidth,
+                            ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Text(
+                character.description,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              TextButton(
+                onPressed: () {
+                  bloc.showMoreInfo();
+                },
+                child: Text(localization.detailsMissingViewMore),
+              )
+            ],
+          ),
         ),
       ),
     );
