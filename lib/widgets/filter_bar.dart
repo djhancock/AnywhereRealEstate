@@ -127,13 +127,14 @@ class FilterBartState<X> extends State<FilterBar<X>> {
                               return;
                             }
 
-                            if (_selectedFilters.contains(filter)) {
-                              _selectedFilters.remove(filter);
-                            } else {
-                              _selectedFilters.add(filter);
-                            }
-
-                            _applyFilter();
+                            setState(() {
+                              if (_selectedFilters.contains(filter)) {
+                                _selectedFilters.remove(filter);
+                              } else {
+                                _selectedFilters.add(filter);
+                              }
+                              _applyFilter();
+                            });
                           },
                         ),
                       ),
